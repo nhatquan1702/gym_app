@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:exercise_app/pages/video_page.dart';
 import 'package:exercise_app/utils/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -10,15 +11,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List info = [];
+  static List info = [];
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     _initData();
+    super.initState();
+
   }
-  _initData() {
-    DefaultAssetBundle.of(context).loadString("json/info.json").then((value) => info = json.decode(value));
+  _initData() async{
+    await Future.delayed(const Duration(seconds: 2));
+    var catalogJson = await rootBundle.loadString("json/info.json");
+    info = jsonDecode(catalogJson);
+    setState((){});
+    //DefaultAssetBundle.of(context).loadString("").then((value) => info = json.decode(value));
   }
   @override
   Widget build(BuildContext context) {
@@ -72,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                 Expanded(child: Container()),
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => VideoPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const VideoPage()));
                   },
                   child: Text(
                     "Chi tiết",
@@ -85,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(width: 5,),
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => VideoPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const VideoPage()));
                   },
                   child: Icon(
                     Icons.arrow_forward,

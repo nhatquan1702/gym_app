@@ -1,30 +1,30 @@
 [
   {
-    "title": "Glutes",
+    "title": "Mông",
     "img": "assets/ex1.png"
   },
   {
-    "title": "Abs",
+    "title": "Bụng",
     "img": "assets/ex2.png"
   },
   {
-    "title": "Legs",
+    "title": "Chân",
     "img": "assets/ex3.png"
   },
   {
-    "title": "Arms",
+    "title": "Tay",
     "img": "assets/ex4.png"
   },
   {
-    "title": "Legs",
+    "title": "Mông",
     "img": "assets/ex3.png"
   },
   {
-    "title": "Arms",
+    "title": "Tay",
     "img": "assets/ex4.png"
   },
   {
-    "title": "Arms",
+    "title": "Tay",
     "img": "assets/ex4.png"
   }
 ]
