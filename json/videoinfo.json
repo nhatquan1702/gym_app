@@ -1,26 +1,50 @@
 [
   {
-    "title": "Squat and Walk",
-    "time": "45 seconds",
-    "thumbnail": "embed/squat1.jpg",
-    "videoUrl": "http://db.bslmeiyu.com/uploads/uploads/video/2021/08/21/1-%20Introduction.mp4"
+    "title": "Sau này của chúng ta",
+    "time": "Lê Hiếu",
+    "thumbnail": "assets/squat1.jpg",
+    "videoUrl": "https://res.cloudinary.com/dmfrvd4tl/video/upload/v1658071364/Gym%20App%20Flutter/y2mate.com_-_Sau_N%C3%A0y_C%E1%BB%A7a_Ch%C3%BAng_Ta_L%C3%AA_Hi%E1%BA%BFuOfficial_Lyric_Video_v720P_fsoad2.mp4"
   },
   {
-    "title": "Plie Squat and Heel Raises",
-    "time": "55 seconds",
-    "thumbnail": "embed/squat2.jpg",
-    "videoUrl": "https://img.bslmeiyu.com/uploads/20170706/The%20Bananas%20Song%20%20Counting%20Bananas%20%20Super%20Simple%20Songs.mp4"
+    "title": "Ví dầu đưa dâu",
+    "time": "Diệu Kiên",
+    "thumbnail": "assets/squat2.jpg",
+    "videoUrl": "https://res.cloudinary.com/dmfrvd4tl/video/upload/v1658051932/Gym%20App%20Flutter/y2mate.com_-_V%C3%8D_D%E1%BA%A6U_%C4%90%C6%AFA_D%C3%82U_DUY_KHI%C3%8AM_X_DI%E1%BB%86U_KI%C3%8AN_OFFICIAL_LYRICS_VIDEO_1080p.mp4_nukjfa.mp4"
   },
   {
-    "title": "Squat Kickback",
-    "time": "60 seconds",
-    "thumbnail": "embed/squat3.jpg",
-    "videoUrl": "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4"
+    "title": "Xin má rước dâu",
+    "time": "Diệu Kiên",
+    "thumbnail": "assets/squat3.jpg",
+    "videoUrl": "https://res.cloudinary.com/dmfrvd4tl/video/upload/v1658055433/Gym%20App%20Flutter/y2mate.com_-_ANH_%C6%A0I_N%E1%BA%AENG_M%C6%AFA_D%C3%A3i_D%E1%BA%A6U_V%E1%BB%80_NH%C3%80_XIN_M%C3%81_R%C6%AF%E1%BB%9AC_D%C3%82U_XIN_MA_R%C6%AF%C6%A0C_D%C3%82U_DI%C3%8AU_KI%C3%8AN_OFFICIAL_VIDEO_v720P_chlcco.mp4"
   },
   {
-    "title": "Squat with Side Leg Lift",
-    "time": "120 seconds",
-    "thumbnail": "embed/squat4.jpg",
-    "videoUrl": "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4"
+    "title": "Vách ngọc ngà",
+    "time": "Anh Rồng",
+    "thumbnail": "assets/squat4.jpg",
+    "videoUrl": "https://res.cloudinary.com/dmfrvd4tl/video/upload/v1658071374/Gym%20App%20Flutter/y2mate.com_-_ANH_R%E1%BB%92NG_V%C3%81CH_NG%E1%BB%8CC_NG%C3%80_OFFICIAL_MUSIC_VIDEO_v720P_iyom9z.mp4"
+  },
+  {
+    "title": "Thước đo",
+    "time": "Anh Rồng",
+    "thumbnail": "assets/squat1.jpg",
+    "videoUrl": "https://res.cloudinary.com/dmfrvd4tl/video/upload/v1658071386/Gym%20App%20Flutter/y2mate.com_-_Th%C6%B0%E1%BB%9Bc_%C4%90o_Anh_R%E1%BB%93ng_Official_music_video_v720P_r7bklg.mp4"
+  },
+  {
+    "title": "Đoạn tình phai",
+    "time": "Anh Rồng",
+    "thumbnail": "assets/squat2.jpg",
+    "videoUrl": "https://res.cloudinary.com/dmfrvd4tl/video/upload/v1658071386/Gym%20App%20Flutter/y2mate.com_-_ANH_R%E1%BB%92NG_%C4%90O%E1%BA%A0N_T%C3%8CNH_PHAI_OFFICIAL_MUSIC_VIDEO_v720P_vf9xgq.mp4"
+  },
+  {
+    "title": "Em ơi đừng sầu",
+    "time": "Diệu Kiên",
+    "thumbnail": "assets/squat3.jpg",
+    "videoUrl": "https://res.cloudinary.com/dmfrvd4tl/video/upload/v1658071381/Gym%20App%20Flutter/y2mate.com_-_EM_%C6%A0I_%C4%90%E1%BB%AANG_S%E1%BA%A6U_NB3_HO%C3%80I_B%E1%BA%A2O_OFFICIAL_MUSIC_VIDEO_v720P_uocfpg.mp4"
+  },
+  {
+    "title": "Than thân",
+    "time": "Anh Rồng",
+    "thumbnail": "assets/squat4.jpg",
+    "videoUrl": "https://res.cloudinary.com/dmfrvd4tl/video/upload/v1658071377/Gym%20App%20Flutter/y2mate.com_-_ANH_R%E1%BB%92NG_THAN_TH%C3%82N_OFFICIAL_MUSIC_VIDEO_v720P_qr6cfm.mp4"
   }
 ]

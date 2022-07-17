@@ -3,6 +3,7 @@ import 'package:exercise_app/pages/video_page.dart';
 import 'package:exercise_app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                 Expanded(child: Container()),
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const VideoPage()));
+                    Get.to(() => const VideoPage());
                   },
                   child: Text(
                     "Chi tiết",
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(width: 5,),
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const VideoPage()));
+                    Get.to(() => const VideoPage());
                   },
                   child: Icon(
                     Icons.arrow_forward,
@@ -294,6 +295,7 @@ class _HomePageState extends State<HomePage> {
                 removeTop: true,
                 context: context,
                 child: ListView.builder(
+                  shrinkWrap: true,
                     itemCount: info.length.toDouble()~/2, //2
                     itemBuilder: (_, i){
                       int a = 2*i; //0, 2,
