@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:exercise_app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,8 +19,9 @@ class _VideoPageState extends State<VideoPage> {
   bool _isPlaying = false;
   bool _dispose = false;
   int _isPlayingIndex = -1;
-  late String mins="";
-  late String secs="";
+  late double process = 0;
+  late String time = "00:00";
+  int sub = 0;
   VideoPlayerController? _videoPlayerController;
 
   @override
@@ -380,16 +382,24 @@ class _VideoPageState extends State<VideoPage> {
     final duration = du;
     final head = po;
 
-    int sub;
-
-    sub = int.parse(duration.inSeconds.toString()) -
-        int.parse(head.inSeconds.toString());
-    if (sub < 0) {
-      sub = 0;
+    sub = sub + int.parse(head.inSeconds.toString());
+    if (sub > int.parse(duration.inSeconds.toString())) {
+      sub = int.parse(duration.inSeconds.toString());
     }
+
+    //int sub;
+    // sub = int.parse(duration.inSeconds.toString()) -
+    //     int.parse(head.inSeconds.toString());
+    // if (sub < 0) {
+    //   sub = 0;
+    // }
+
+    //process = duration.inSeconds / head.inSeconds;
     setState(() {
-      mins = convertTo(sub ~/ 60);
-      secs = convertTo(sub % 60);
+      process = po.inSeconds.toDouble();
+      var mins = convertTo(process ~/ 60);
+      var secs = convertTo(process.toInt() % 60);
+      time = "$mins:$secs";
     });
 
     if (_dispose) {
@@ -475,6 +485,7 @@ class _VideoPageState extends State<VideoPage> {
       );
     }
   }
+
 // v m thử toàn cục thử đi
   String convertTo(int value) {
     return value < 10 ? "0$value" : "$value";
@@ -482,162 +493,210 @@ class _VideoPageState extends State<VideoPage> {
 
   Widget _controlVideo(BuildContext context) {
     final noMute = (_videoPlayerController?.value.volume ?? 0) > 0;
-
+    final du = _videoPlayerController!.value.duration;
     // t nghĩ mấy cái này thì nên tách thành 1 file con
     // là video page thì là 1 file cha,, chứa cái stateful widget or stateless widget
     // còn này của m đag là widget ko thì t ko chắc là setState trong đây nó sẽ render lại đc
 
-
-
     return Container(
-      height: 60,
+      height: 120,
       width: MediaQuery.of(context).size.width,
       color: AppColor.gradientSecond,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
         children: [
-          InkWell(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              child: Container(
-                decoration:
-                    const BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                  BoxShadow(
-                    offset: Offset(0.0, 0.0),
-                    blurRadius: 4,
-                    color: Color.fromARGB(50, 0, 0, 0),
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+                // activeTrackColor: Colors.white,
+                // inactiveTrackColor: AppColor.gradientFirst,
+                // trackShape: const RoundedRectSliderTrackShape(),
+                // trackHeight: 2,
+                // thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
+                // thumbColor: AppColor.gradientFirst,
+                // overlayColor: Colors.blue.withAlpha(32),
+                // overlayShape: const RoundSliderOverlayShape(overlayRadius: 28),
+                // tickMarkShape: const RoundSliderTickMarkShape(),
+                // activeTickMarkColor: AppColor.gradientFirst,
+                // inactiveTickMarkColor: Colors.blueAccent,
+                // valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+                // valueIndicatorColor: Colors.blueAccent,
+                // valueIndicatorTextStyle: const TextStyle(color: Colors.white),
+                ),
+            child: Slider(
+              value: process,
+              min: 0.0,
+              max: du.inSeconds.toDouble(),
+              divisions: du.inSeconds ?? 100,
+              label: time,
+              onChanged: (value) {
+                setState(() {
+                  final minss = convertTo(value ~/ 60);
+                  final secss = convertTo(value.toInt() % 60);
+                  time = "$minss:$secss";
+                  process = value;
+                });
+              },
+              onChangeStart: (value) {
+                _videoPlayerController?.pause();
+              },
+              onChangeEnd: (value) {
+                _videoPlayerController
+                    ?.seekTo(Duration(seconds: value.toInt()));
+                _videoPlayerController?.play();
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: Container(
+                    decoration:
+                        const BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0.0, 0.0),
+                        blurRadius: 4,
+                        color: Color.fromARGB(50, 0, 0, 0),
+                      ),
+                    ]),
+                    child: Icon(
+                      noMute ? Icons.volume_up : Icons.volume_off,
+                      color: Colors.white,
+                    ),
                   ),
-                ]),
-                child: Icon(
-                  noMute ? Icons.volume_up : Icons.volume_off,
-                  color: Colors.white,
+                ),
+                onTap: () {
+                  if (noMute) {
+                    _videoPlayerController?.setVolume(0);
+                  } else {
+                    _videoPlayerController?.setVolume(1);
+                  }
+                  setState(() {});
+                },
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: IconButton(
+                  onPressed: () async {
+                    final index = _isPlayingIndex - 1;
+                    // ignore: prefer_is_empty
+                    if (index >= 0 && infoVideo.length >= 0) {
+                      _onTapVideo(index);
+                      setState(() {
+                        _isPlaying = true;
+                      });
+                    } else {
+                      Get.snackbar(
+                        "Video",
+                        "",
+                        snackPosition: SnackPosition.BOTTOM,
+                        icon: const Icon(
+                          Icons.face,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                        backgroundColor: AppColor.gradientSecond,
+                        colorText: Colors.white,
+                        messageText: const Text(
+                          "Không còn video nào trước đó",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      );
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.fast_rewind,
+                    size: 30,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-            ),
-            onTap: () {
-              if (noMute) {
-                _videoPlayerController?.setVolume(0);
-              } else {
-                _videoPlayerController?.setVolume(1);
-              }
-              setState(() {});
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: IconButton(
-              onPressed: () async {
-                final index = _isPlayingIndex - 1;
-                // ignore: prefer_is_empty
-                if (index >= 0 && infoVideo.length >= 0) {
-                  _onTapVideo(index);
-                  setState(() {
-                    _isPlaying = true;
-                  });
-                } else {
-                  Get.snackbar(
-                    "Video",
-                    "",
-                    snackPosition: SnackPosition.BOTTOM,
-                    icon: const Icon(
-                      Icons.face,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    backgroundColor: AppColor.gradientSecond,
-                    colorText: Colors.white,
-                    messageText: const Text(
-                      "Không còn video nào trước đó",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  );
-                }
-              },
-              icon: const Icon(
-                Icons.fast_rewind,
-                size: 30,
-                color: Colors.white,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: IconButton(
+                  onPressed: () async {
+                    if (_isPlaying) {
+                      setState(() {
+                        _isPlaying = false;
+                      });
+                      _videoPlayerController?.pause();
+                    } else {
+                      setState(() {
+                        _isPlaying = true;
+                      });
+                      _videoPlayerController?.play();
+                    }
+                  },
+                  icon: _isPlaying
+                      ? const Icon(
+                          Icons.pause,
+                          size: 30,
+                          color: Colors.white,
+                        )
+                      : const Icon(
+                          Icons.play_arrow,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: IconButton(
-              onPressed: () async {
-                if (_isPlaying) {
-                  setState(() {
-                    _isPlaying = false;
-                  });
-                  _videoPlayerController?.pause();
-                } else {
-                  setState(() {
-                    _isPlaying = true;
-                  });
-                  _videoPlayerController?.play();
-                }
-              },
-              icon: _isPlaying
-                  ? const Icon(
-                      Icons.pause,
-                      size: 30,
-                      color: Colors.white,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: IconButton(
+                  onPressed: () async {
+                    final index = _isPlayingIndex + 1;
+                    if (index <= infoVideo.length - 1) {
+                      _onTapVideo(index);
+                      setState(() {
+                        _isPlaying = true;
+                      });
+                    } else {
+                      Get.snackbar(
+                        "Video",
+                        "",
+                        snackPosition: SnackPosition.BOTTOM,
+                        icon: const Icon(
+                          Icons.face,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        backgroundColor: AppColor.gradientSecond,
+                        colorText: Colors.white,
+                        messageText: const Text(
+                          "Không còn video nào sau đó",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                      );
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.fast_forward,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: Text(
+                  time,
+                  //"00:00",
+                  style: const TextStyle(color: Colors.white, shadows: <Shadow>[
+                    Shadow(
+                      offset: Offset(0.0, 1.0),
+                      blurRadius: 4,
+                      color: Color.fromARGB(50, 0, 0, 0),
                     )
-                  : const Icon(
-                      Icons.play_arrow,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: IconButton(
-              onPressed: () async {
-                final index = _isPlayingIndex + 1;
-                if (index <= infoVideo.length - 1) {
-                  _onTapVideo(index);
-                  setState(() {
-                    _isPlaying = true;
-                  });
-                } else {
-                  Get.snackbar(
-                    "Video",
-                    "",
-                    snackPosition: SnackPosition.BOTTOM,
-                    icon: const Icon(
-                      Icons.face,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    backgroundColor: AppColor.gradientSecond,
-                    colorText: Colors.white,
-                    messageText: const Text(
-                      "Không còn video nào sau đó",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
-                  );
-                }
-              },
-              icon: const Icon(
-                Icons.fast_forward,
-                size: 30,
-                color: Colors.white,
+                  ]),
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Text(
-              "$mins : $secs",
-              //"00:00",
-              style: const TextStyle(color: Colors.white, shadows: <Shadow>[
-                Shadow(
-                  offset: Offset(0.0, 1.0),
-                  blurRadius: 4,
-                  color: Color.fromARGB(50, 0, 0, 0),
-                )
-              ]),
-            ),
+            ],
           ),
         ],
       ),
