@@ -387,13 +387,6 @@ class _VideoPageState extends State<VideoPage> {
       sub = int.parse(duration.inSeconds.toString());
     }
 
-    //int sub;
-    // sub = int.parse(duration.inSeconds.toString()) -
-    //     int.parse(head.inSeconds.toString());
-    // if (sub < 0) {
-    //   sub = 0;
-    // }
-
     //process = duration.inSeconds / head.inSeconds;
     setState(() {
       process = po.inSeconds.toDouble();
@@ -506,32 +499,32 @@ class _VideoPageState extends State<VideoPage> {
         children: [
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
-                // activeTrackColor: Colors.white,
-                // inactiveTrackColor: AppColor.gradientFirst,
-                // trackShape: const RoundedRectSliderTrackShape(),
-                // trackHeight: 2,
-                // thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
-                // thumbColor: AppColor.gradientFirst,
-                // overlayColor: Colors.blue.withAlpha(32),
-                // overlayShape: const RoundSliderOverlayShape(overlayRadius: 28),
-                // tickMarkShape: const RoundSliderTickMarkShape(),
-                // activeTickMarkColor: AppColor.gradientFirst,
-                // inactiveTickMarkColor: Colors.blueAccent,
-                // valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-                // valueIndicatorColor: Colors.blueAccent,
-                // valueIndicatorTextStyle: const TextStyle(color: Colors.white),
+                activeTrackColor: AppColor.gradientFirst,
+                inactiveTrackColor: Colors.white,
+                trackShape: const RoundedRectSliderTrackShape(),
+                trackHeight: 2,
+                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
+                thumbColor: AppColor.gradientFirst,
+                overlayColor: Colors.white,
+                overlayShape: const RoundSliderOverlayShape(overlayRadius: 28),
+                tickMarkShape: const RoundSliderTickMarkShape(),
+                // activeTickMarkColor: Colors.teal,
+                // inactiveTickMarkColor: Colors.green,
+                valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+                valueIndicatorColor: AppColor.gradientFirst,
+                valueIndicatorTextStyle: const TextStyle(color: Colors.white),
                 ),
             child: Slider(
               value: process,
               min: 0.0,
               max: du.inSeconds.toDouble(),
-              divisions: du.inSeconds ?? 100,
+              divisions: du.inSeconds,
               label: time,
               onChanged: (value) {
                 setState(() {
                   final minss = convertTo(value ~/ 60);
                   final secss = convertTo(value.toInt() % 60);
-                  time = "$minss:$secss";
+                  time = '$minss:$secss';
                   process = value;
                 });
               },
